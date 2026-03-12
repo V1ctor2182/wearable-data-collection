@@ -78,6 +78,9 @@ tr:hover td { background: var(--bg-hover); }
 .badge-method { background: rgba(34,197,94,.15); color: var(--green); }
 .badge-error { background: rgba(239,68,68,.15); color: var(--red); }
 .badge-success { background: rgba(34,197,94,.15); color: var(--green); }
+.badge-payload { background: rgba(34,197,94,.2); color: #4ade80; font-size: 10px; letter-spacing: .03em; }
+.badge-apidoc { background: rgba(59,130,246,.2); color: #60a5fa; font-size: 10px; letter-spacing: .03em; }
+.badge-newly-added { background: rgba(245,158,11,.15); color: #f59e0b; font-size: 10px; letter-spacing: .03em; }
 
 /* ─── JSON Viewer ─── */
 .json-viewer {

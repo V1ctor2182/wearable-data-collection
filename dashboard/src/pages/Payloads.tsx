@@ -2,6 +2,8 @@ import { useEffect, useState, useCallback } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { api, type PayloadRow, type CategoryRow } from '../api'
 import { Loading, ErrorBox } from '../components/Loading'
+import { FITBIT_API_REFERENCE, type CategoryRef } from '../data/fitbit-api-reference'
+import { OURA_API_REFERENCE } from '../data/oura-api-reference'
 
 const PAGE_SIZE = 50
 
@@ -89,12 +91,15 @@ export default function Payloads() {
     ? [...new Set(categories.filter(c => c.device_type === device).map(c => c.data_category))].sort()
     : [...new Set(categories.map(c => c.data_category))].sort()
 
-  function setFilter(key: string, val: string) {
-    const p = new URLSearchParams(searchParams)
-    if (val) p.set(key, val)
-    else p.delete(key)
-    p.set('page', '1')
-    setSearchParams(p)
+  function setFilter(key: string, val: string, alsoDelete?: string[]) {
+    setSearchParams(prev => {
+      const p = new URLSearchParams(prev)
+      if (val) p.set(key, val)
+      else p.delete(key)
+      if (alsoDelete) alsoDelete.forEach(k => p.delete(k))
+      p.set('page', '1')
+      return p
+    })
   }
 
   function goPage(n: number) {
@@ -107,13 +112,33 @@ export default function Payloads() {
   const schemaPayload = rows.length > 0 ? rows[0] : null
   const schema = schemaPayload ? extractSchema(schemaPayload.payload) : []
 
+  // API reference for supported devices
+  const apiRefMap: Record<string, Record<string, CategoryRef>> = {
+    fitbit: FITBIT_API_REFERENCE,
+    oura: OURA_API_REFERENCE,
+  }
+  const deviceRef = device && apiRefMap[device] ? apiRefMap[device] : null
+  const apiRef = deviceRef && category ? deviceRef[category] ?? null : null
+  // Show newly added endpoints overview when a supported device is selected without category
+  const newlyAddedEndpoints = deviceRef && !category
+    ? Object.entries(deviceRef).filter(([, ref]) => ref.status === 'newly_added')
+    : []
+
   return (
     <>
       <h1 className="section-title">Raw Payloads</h1>
 
       {/* Filters */}
       <div className="filters">
-        <select value={device} onChange={e => { setFilter('device', e.target.value); setFilter('category', '') }}>
+        <select value={device} onChange={e => {
+          const p = new URLSearchParams(searchParams)
+          const val = e.target.value
+          if (val) p.set('device', val)
+          else p.delete('device')
+          p.delete('category')
+          p.set('page', '1')
+          setSearchParams(p)
+        }}>
           <option value="">All Devices</option>
           {devices.map(d => <option key={d} value={d}>{d}</option>)}
         </select>
@@ -128,8 +153,70 @@ export default function Payloads() {
 
       {loading ? <Loading /> : error ? <ErrorBox message={error} /> : (
         <>
-          {/* Schema preview when a specific category is selected */}
-          {category && schema.length > 0 && (
+          {/* API Reference card for Fitbit categories */}
+          {apiRef && (
+            <div className="card" style={{ marginBottom: 20 }}>
+              <div className="card-header">
+                <div>
+                  <h2>Field Reference — {category}{' '}
+                    {apiRef.status === 'newly_added' && <span className="badge badge-newly-added" style={{ fontSize: 10, verticalAlign: 'middle', marginLeft: 8 }}>NEWLY ADDED</span>}
+                    {apiRef.status === 'empty' && <span className="badge" style={{ fontSize: 10, verticalAlign: 'middle', marginLeft: 8, background: 'rgba(156,163,175,.15)', color: '#9ca3af' }}>NO DATA YET</span>}
+                  </h2>
+                  <div style={{ fontSize: 12, fontFamily: 'var(--mono)', color: 'var(--text-dim)', marginTop: 4 }}>
+                    {apiRef.endpoint}
+                  </div>
+                </div>
+                <a
+                  href={apiRef.docsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-ghost"
+                  style={{ fontSize: 12 }}
+                >
+                  Official API Docs &nearr;
+                </a>
+              </div>
+              {apiRef.status === 'newly_added' && (
+                <div style={{ fontSize: 12, color: '#f59e0b', marginBottom: 12, padding: '8px 12px', background: 'rgba(245,158,11,.08)', borderRadius: 6 }}>
+                  <strong>Newly added endpoint</strong> — {apiRef.notCollectedReason}
+                </div>
+              )}
+              {apiRef.note && (
+                <div style={{ fontSize: 12, color: 'var(--yellow)', marginBottom: 12, padding: '8px 12px', background: 'rgba(234,179,8,.08)', borderRadius: 6 }}>
+                  {apiRef.note}
+                </div>
+              )}
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Field Path</th>
+                      <th>Type</th>
+                      <th>Source</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {apiRef.fields.map(f => (
+                      <tr key={f.path}>
+                        <td style={{ fontFamily: 'var(--mono)', fontSize: 12, color: '#93c5fd' }}>{f.path}</td>
+                        <td><span className="badge" style={{ background: 'rgba(139,92,246,.15)', color: '#c084fc' }}>{f.type}</span></td>
+                        <td>
+                          <span className={`badge ${f.source === 'payload' ? 'badge-payload' : 'badge-apidoc'}`}>
+                            {f.source === 'payload' ? 'PAYLOAD' : 'API DOC'}
+                          </span>
+                        </td>
+                        <td style={{ fontSize: 12, color: 'var(--text-dim)' }}>{f.description || '—'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Payload Structure from actual data (non-fitbit or no API ref) */}
+          {category && schema.length > 0 && !apiRef && (
             <div className="card" style={{ marginBottom: 20 }}>
               <div className="card-header">
                 <h2>Payload Structure — {category}</h2>
@@ -204,6 +291,50 @@ export default function Payloads() {
                   <button className="btn btn-ghost" disabled={page >= totalPages} onClick={() => goPage(page + 1)}>Next</button>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Newly Added Endpoints - show when fitbit is selected but no category */}
+          {newlyAddedEndpoints.length > 0 && (
+            <div className="card" style={{ marginTop: 20 }}>
+              <div className="card-header">
+                <h2>Newly Added Endpoints</h2>
+                <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>Recently added {device} API endpoints — re-sync to pull data</span>
+              </div>
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>API Path</th>
+                      <th>Why It Was Missing</th>
+                      <th>Docs</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {newlyAddedEndpoints.map(([cat, ref]) => (
+                      <tr key={cat} className="clickable" onClick={() => {
+                        const p = new URLSearchParams(searchParams)
+                        p.set('device', device)
+                        p.set('category', cat)
+                        p.set('page', '1')
+                        setSearchParams(p)
+                      }}>
+                        <td>
+                          <span className="badge badge-newly-added" style={{ fontSize: 11 }}>{cat}</span>
+                        </td>
+                        <td style={{ fontFamily: 'var(--mono)', fontSize: 11 }}>{ref.endpoint}</td>
+                        <td style={{ fontSize: 12, color: 'var(--text-dim)', maxWidth: 350 }}>{ref.notCollectedReason}</td>
+                        <td>
+                          <a href={ref.docsUrl} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ color: 'var(--accent)', fontSize: 12 }}>
+                            docs &nearr;
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
         </>

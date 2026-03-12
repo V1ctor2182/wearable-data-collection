@@ -49,6 +49,17 @@ FITBIT_ENDPOINTS = [
     ("devices",          "/1/user/-/devices.json"),
     # Profile
     ("profile",          "/1/user/-/profile.json"),
+    # Nutrition (requires 'nutrition' scope)
+    ("food_log",         "/1/user/-/foods/log/date/{date}.json"),
+    ("water_log",        "/1/user/-/foods/log/water/date/{date}.json"),
+    # Activity Log List (individual exercise sessions)
+    ("activity_log",     "/1/user/-/activities/list.json?afterDate={date}&sort=asc&limit=100&offset=0"),
+    # Lifetime Stats
+    ("lifetime_stats",   "/1/user/-/activities.json"),
+    # Irregular Rhythm Notifications (AFib)
+    ("irn_alerts",       "/1/user/-/irn/alerts/list.json?afterDate={date}&sort=asc&limit=10&offset=0"),
+    # Breathing Rate Intraday
+    ("breathing_rate_intraday", "/1/user/-/br/date/{date}/all.json"),
 ]
 
 

@@ -29,6 +29,10 @@ OURA_ENDPOINTS = [
     ("vo2_max",             "/v2/usercollection/vo2_max"),
     ("ring_configuration",  "/v2/usercollection/ring_configuration"),
     ("personal_info",       "/v2/usercollection/personal_info"),
+    # ─── Newly added endpoints ───
+    ("rest_mode_period",    "/v2/usercollection/rest_mode_period"),
+    ("tag",                 "/v2/usercollection/tag"),
+    ("enhanced_tag",        "/v2/usercollection/enhanced_tag"),
 ]
 
 

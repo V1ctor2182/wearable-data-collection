@@ -112,8 +112,12 @@ async def oauth_authorize(device_type: str, user_id: str = "default"):
 
 @app.get("/oauth/{device_type}/callback")
 @app.get("/api/v1/oauth/{device_type}/callback")
-async def oauth_callback(device_type: str, code: str, state: str):
+async def oauth_callback(device_type: str, request: Request, code: str, state: Optional[str] = None):
     """Handle OAuth callback, store tokens."""
+    if not state:
+        # Log all query params for debugging
+        logger.warning(f"OAuth callback missing state param. Query: {dict(request.query_params)}")
+        raise HTTPException(400, f"Missing state parameter. Received params: {list(request.query_params.keys())}")
     pool = await get_pool()
     try:
         result = await handle_callback(pool, state, code)
