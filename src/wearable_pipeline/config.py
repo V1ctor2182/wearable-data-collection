@@ -39,6 +39,13 @@ class Settings(BaseSettings):
     whoop_client_secret: str = ""
     whoop_redirect_uri: str = ""
 
+    # FHIR / SMART on FHIR
+    fhir_client_id: str = ""
+    fhir_client_secret: str = ""
+    fhir_redirect_uri: str = ""
+    # SMART v1 scope syntax: .read = read access
+    fhir_default_scopes: str = "launch/patient openid fhirUser patient/Patient.read patient/Observation.read patient/Condition.read patient/MedicationRequest.read patient/Procedure.read patient/Immunization.read patient/AllergyIntolerance.read patient/DocumentReference.read"
+
     # Terra (disabled)
     # terra_api_key: str = ""
     # terra_dev_id: str = ""

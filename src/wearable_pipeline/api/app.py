@@ -18,7 +18,8 @@ from fastapi.responses import RedirectResponse
 from ..config import settings
 from ..db.connection import get_pool, close_pool, init_schema
 from ..oauth.manager import (
-    init_oauth_configs, generate_auth_url, handle_callback, get_valid_token, OAUTH_CONFIGS
+    init_oauth_configs, generate_auth_url, handle_callback, get_valid_token, OAUTH_CONFIGS,
+    generate_fhir_auth_url, handle_fhir_callback,
 )
 from ..storage.payload_store import (
     store_payloads, log_ingestion, compute_file_hash, IngestionResult
@@ -33,7 +34,11 @@ from ..collectors.samsung import SamsungCollector
 from ..collectors.health_connect import HealthConnectCollector
 from ..collectors.xiaomi import XiaomiCollector
 from ..collectors.polar_suunto import PolarSuuntoCollector
+from ..collectors.fhir import FHIRCollector
 # from ..collectors.terra import TerraCollector  # Terra disabled
+from ..fhir.discovery import (
+    search_hospitals, list_connected_hospitals, ensure_endpoint_registered,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(name)s] %(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -113,11 +118,15 @@ async def oauth_authorize(device_type: str, user_id: str = "default"):
 @app.get("/oauth/{device_type}/callback")
 @app.get("/api/v1/oauth/{device_type}/callback")
 async def oauth_callback(device_type: str, request: Request, code: str, state: Optional[str] = None):
-    """Handle OAuth callback, store tokens."""
+    """Handle OAuth callback, store tokens. Delegates to FHIR handler if state is FHIR."""
     if not state:
-        # Log all query params for debugging
         logger.warning(f"OAuth callback missing state param. Query: {dict(request.query_params)}")
         raise HTTPException(400, f"Missing state parameter. Received params: {list(request.query_params.keys())}")
+
+    # Check if this is a FHIR callback (device_type="fhir" from /api/v1/oauth/fhir/callback)
+    if device_type == "fhir":
+        return await fhir_callback(request, code, state)
+
     pool = await get_pool()
     try:
         result = await handle_callback(pool, state, code)
@@ -145,6 +154,98 @@ async def oauth_status(user_id: str = "default"):
             "updated_at": r["updated_at"].isoformat() if r["updated_at"] else None,
         }
     return result
+
+
+# ─── FHIR / Hospital Endpoints ─────────────────────────────
+
+@app.get("/api/fhir/hospitals")
+async def fhir_search_hospitals(q: str = ""):
+    """Search the curated hospital directory by name."""
+    if not q:
+        return search_hospitals("")  # return all
+    return search_hospitals(q)
+
+
+@app.get("/api/fhir/connections")
+async def fhir_connections(user_id: str = "default"):
+    """List all hospitals a user has connected."""
+    pool = await get_pool()
+    return await list_connected_hospitals(pool, user_id)
+
+
+@app.get("/api/fhir/authorize")
+async def fhir_authorize(endpoint_id: str, user_id: str = "default"):
+    """Start SMART on FHIR OAuth flow for a hospital."""
+    pool = await get_pool()
+    try:
+        # Ensure endpoint is registered (discover if needed)
+        await ensure_endpoint_registered(pool, endpoint_id)
+        url = await generate_fhir_auth_url(pool, endpoint_id, user_id)
+        return {"authorization_url": url, "endpoint_id": endpoint_id}
+    except Exception as e:
+        logger.error(f"FHIR authorize error: {e}")
+        raise HTTPException(400, str(e))
+
+
+@app.get("/api/fhir/callback")
+@app.get("/api/v1/oauth/fhir/callback")
+async def fhir_callback(request: Request, code: str, state: Optional[str] = None):
+    """Handle SMART on FHIR OAuth callback (single URL for all hospitals)."""
+    if not state:
+        logger.warning(f"FHIR callback missing state. Query: {dict(request.query_params)}")
+        raise HTTPException(400, "Missing state parameter")
+    pool = await get_pool()
+    try:
+        result = await handle_fhir_callback(pool, state, code)
+        return {"success": True, **result}
+    except Exception as e:
+        logger.error(f"FHIR callback error: {e}")
+        raise HTTPException(400, str(e))
+
+
+@app.post("/sync/fhir/{endpoint_id}")
+async def fhir_sync(
+    endpoint_id: str,
+    user_id: str = "default",
+):
+    """Manually trigger FHIR data pull for a connected hospital."""
+    pool = await get_pool()
+    collector = FHIRCollector(pool, user_id, endpoint_id)
+
+    try:
+        raw_payloads = await collector.collect()
+        result = await store_payloads(pool, raw_payloads)
+        await log_ingestion(pool, user_id, f"fhir:{endpoint_id}", "fhir_sync", result)
+        return {
+            "endpoint_id": endpoint_id,
+            "device_type": f"fhir:{endpoint_id}",
+            "total": result.total,
+            "inserted": result.inserted,
+            "duplicated": result.duplicated,
+            "errors": result.errors,
+        }
+    except Exception as e:
+        logger.error(f"FHIR sync error for {endpoint_id}: {e}")
+        await log_ingestion(
+            pool, user_id, f"fhir:{endpoint_id}", "fhir_sync",
+            IngestionResult(), error=str(e),
+        )
+        raise HTTPException(500, str(e))
+
+
+@app.delete("/api/fhir/connections/{endpoint_id}")
+async def fhir_disconnect(endpoint_id: str, user_id: str = "default"):
+    """Disconnect a hospital (mark inactive, tokens remain for re-connect)."""
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        updated = await conn.execute(
+            """
+            UPDATE fhir_user_connections SET status = 'disconnected'
+            WHERE user_id = $1 AND endpoint_id = $2
+            """,
+            user_id, endpoint_id,
+        )
+    return {"disconnected": endpoint_id, "user_id": user_id}
 
 
 # ─── Manual Sync (OAuth devices) ───────────────────────────
