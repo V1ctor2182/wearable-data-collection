@@ -361,18 +361,24 @@ async def handle_fhir_callback(
 
     # Exchange code for tokens
     async with httpx.AsyncClient(timeout=30.0) as client:
-        data = {
+        params = {
             "grant_type": "authorization_code",
             "code": code,
             "redirect_uri": settings.fhir_redirect_uri,
             "client_id": settings.fhir_client_id,
         }
-        # Confidential client: include secret if configured
         if settings.fhir_client_secret:
-            data["client_secret"] = settings.fhir_client_secret
-        headers = {"Content-Type": "application/x-www-form-urlencoded"}
+            params["client_secret"] = settings.fhir_client_secret
 
-        resp = await client.post(endpoint["token_url"], data=data, headers=headers)
+        # Use content= with manual urlencode to ensure special chars (+, =, /)
+        # in client_secret are properly encoded (httpx data= can mishandle these)
+        from urllib.parse import urlencode as _urlencode
+        body = _urlencode(params)
+        resp = await client.post(
+            endpoint["token_url"],
+            content=body,
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+        )
         if resp.status_code != 200:
             logger.error(f"FHIR token exchange failed: {resp.status_code} {resp.text}")
         resp.raise_for_status()
@@ -482,17 +488,21 @@ async def _refresh_fhir_token(
     device_type = f"fhir:{endpoint_id}"
 
     async with httpx.AsyncClient(timeout=30.0) as client:
-        data = {
+        params = {
             "grant_type": "refresh_token",
             "refresh_token": refresh_token,
             "client_id": settings.fhir_client_id,
         }
         if settings.fhir_client_secret:
-            data["client_secret"] = settings.fhir_client_secret
+            params["client_secret"] = settings.fhir_client_secret
 
-        headers = {"Content-Type": "application/x-www-form-urlencoded"}
-
-        resp = await client.post(endpoint["token_url"], data=data, headers=headers)
+        from urllib.parse import urlencode as _urlencode
+        body = _urlencode(params)
+        resp = await client.post(
+            endpoint["token_url"],
+            content=body,
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+        )
         if resp.status_code != 200:
             logger.error(f"FHIR token refresh failed: {resp.status_code} {resp.text}")
         resp.raise_for_status()

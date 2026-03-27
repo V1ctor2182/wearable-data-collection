@@ -194,6 +194,7 @@ async def fhir_callback(request: Request, code: str, state: Optional[str] = None
     if not state:
         logger.warning(f"FHIR callback missing state. Query: {dict(request.query_params)}")
         raise HTTPException(400, "Missing state parameter")
+
     pool = await get_pool()
     try:
         result = await handle_fhir_callback(pool, state, code)
