@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terms and Conditions — Wearable Data Pipeline</title>
+  <title>Terms and Conditions — MyHealth Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -76,115 +76,121 @@
   <div class="container">
     <span class="badge">Legal</span>
     <h1>Terms and Conditions</h1>
-    <p class="subtitle">Wearable Data Pipeline &mdash; Columbia University SEA Lab &middot; Last updated: March 30, 2026</p>
+    <p class="subtitle">MyHealth Dashboard &middot; Last updated: April 2, 2026</p>
 
     <h2>1. Overview</h2>
     <p>
-      The Wearable Data Pipeline ("the Application") is a research platform operated by the
-      Systems Engineering of Autonomy (SEA) Lab at Columbia University. It collects, stores, and
-      processes health data from consumer wearable devices and hospital electronic health records
-      (EHR) via the SMART on FHIR standard for the purpose of academic research.
+      MyHealth Dashboard ("the Application") is a personal health application that allows you to
+      securely access, download, and visualize your own health data from your healthcare provider's
+      electronic health record (EHR) system and your personal wearable devices. The Application is
+      designed for individual use under the 21st Century Cures Act, which guarantees your right to
+      access your own electronic health information (EHI).
     </p>
     <p>
-      By using this Application or authorizing it to access your data, you agree to these Terms
-      and Conditions. If you do not agree, please do not use the Application.
+      By using this Application, you agree to these Terms and Conditions. If you do not agree,
+      please do not use the Application.
     </p>
 
     <h2>2. Eligibility</h2>
     <p>
       You must be at least 18 years of age and capable of forming a binding agreement to use this
-      Application. Use of this Application as a research participant is governed by the applicable
-      Institutional Review Board (IRB)-approved consent form, which takes precedence over these Terms
-      in the event of any conflict.
+      Application. The Application is intended for individuals who wish to access their own health
+      data or caregivers acting on behalf of an authorized individual.
     </p>
 
-    <h2>3. Data Collection and Use</h2>
-    <p>The Application may collect the following categories of data upon your authorization:</p>
+    <h2>3. What the Application Does</h2>
+    <p>The Application enables you to:</p>
     <ul>
-      <li><strong>Wearable device data</strong> &mdash; including but not limited to heart rate, sleep,
-        activity, SpO2, HRV, steps, and other metrics from devices such as Fitbit, Oura, WHOOP,
-        Garmin, Apple Health, Samsung Health, and Google Fit.</li>
-      <li><strong>Clinical EHR data</strong> &mdash; including laboratory results, vital signs, conditions,
-        medications, procedures, immunizations, allergies, care plans, and other FHIR R4 resources
-        accessed via SMART on FHIR from your healthcare provider's EHR system (e.g., Epic MyChart,
-        Cerner).</li>
+      <li>Connect to your healthcare provider's EHR system (e.g., Epic MyChart, Cerner) via
+        SMART on FHIR and retrieve your own clinical data, including lab results, vital signs,
+        medications, conditions, immunizations, allergies, procedures, and care plans.</li>
+      <li>Connect your personal wearable devices (such as Fitbit, Oura, WHOOP, Garmin, Apple Health,
+        Samsung Health, and Google Fit) and consolidate your health metrics in one place.</li>
+      <li>View and browse all your collected health data through a personal dashboard.</li>
     </ul>
-    <p>
-      All data is collected solely for academic research purposes. Data is stored as raw payloads
-      in a secure database with content-based deduplication. No data is sold, shared with advertisers,
-      or used for commercial purposes.
-    </p>
 
-    <h2>4. Authorization and Consent</h2>
+    <h2>4. Your Data Belongs to You</h2>
+    <p>
+      All data retrieved by this Application is your own personal health information. You control
+      which data sources to connect and may disconnect any source at any time. Your data is:
+    </p>
+    <ul>
+      <li>Stored securely and accessible only to you.</li>
+      <li>Never sold, shared with third parties, or used for advertising.</li>
+      <li>Never used for any purpose other than displaying it back to you.</li>
+    </ul>
+
+    <h2>5. Authorization</h2>
     <p>
       The Application accesses your health data only after you explicitly authorize the connection
-      through OAuth 2.0 or SMART on FHIR authorization flows provided by the respective data source
-      (wearable device platform or healthcare provider). You may revoke access at any time through
-      your device platform's settings or your healthcare provider's patient portal.
+      through the OAuth 2.0 or SMART on FHIR authorization flow provided by your healthcare provider
+      or wearable device platform. You may revoke access at any time through your provider's patient
+      portal or your device platform's connected apps settings.
     </p>
 
-    <h2>5. Data Storage and Security</h2>
+    <h2>6. Data Storage and Security</h2>
     <ul>
-      <li>All data is encrypted in transit (TLS) and at rest.</li>
-      <li>Access tokens are stored securely and refreshed automatically; they are never exposed to
-        end users or third parties.</li>
-      <li>The Application follows the principle of minimum necessary access, requesting only the
-        FHIR scopes and API permissions required for the research protocol.</li>
-      <li>Data is stored on infrastructure managed by Columbia University, subject to university
-        IT security policies.</li>
+      <li>All data is encrypted in transit (TLS/HTTPS) and at rest.</li>
+      <li>OAuth access tokens are stored securely and refreshed automatically; they are never
+        shared with any third party.</li>
+      <li>The Application requests only the minimum FHIR scopes and API permissions necessary
+        to retrieve your health data.</li>
+      <li>Only you can access your data through the Application.</li>
     </ul>
 
-    <h2>6. Data Retention</h2>
+    <h2>7. Data Retention and Deletion</h2>
     <p>
-      Data is retained for the duration of the research study or as required by the applicable
-      IRB protocol. Upon study completion, data will be de-identified or deleted in accordance
-      with the approved research protocol and university data retention policies.
+      Your data is retained as long as you maintain an active connection. You may request deletion
+      of all your data at any time by contacting us. Upon disconnecting all data sources, your
+      stored data will be deleted within 30 days.
     </p>
 
-    <h2>7. Your Rights</h2>
+    <h2>8. Your Rights</h2>
     <p>You have the right to:</p>
     <ul>
-      <li>Revoke the Application's access to your data at any time.</li>
-      <li>Request a copy of the data the Application has collected about you.</li>
-      <li>Request deletion of your data, subject to research data retention requirements.</li>
-      <li>Withdraw from the research study without penalty.</li>
+      <li>Access all data the Application has collected on your behalf.</li>
+      <li>Export your data in its original format.</li>
+      <li>Revoke the Application's access to any connected data source at any time.</li>
+      <li>Request complete deletion of your data.</li>
     </ul>
 
-    <h2>8. No Medical Advice</h2>
+    <h2>9. No Medical Advice</h2>
     <p>
-      The Application is a research tool and does not provide medical advice, diagnoses, or
-      treatment recommendations. The data displayed or processed by the Application should not
-      be used as a substitute for professional medical judgment.
+      The Application is a personal data viewer and does not provide medical advice, diagnoses, or
+      treatment recommendations. The health data displayed should not be used as a substitute for
+      professional medical judgment. Always consult your healthcare provider for medical decisions.
     </p>
 
-    <h2>9. Third-Party Services</h2>
+    <h2>10. Third-Party Services</h2>
     <p>
-      The Application integrates with third-party services (wearable device platforms, EHR systems)
-      whose own terms of service and privacy policies apply to your use of those services. We are
-      not responsible for the practices of these third-party providers.
+      The Application connects to third-party services (healthcare provider EHR systems, wearable
+      device platforms) to retrieve your data. These services have their own terms of service and
+      privacy policies. We are not responsible for the practices of these third-party providers.
     </p>
 
-    <h2>10. Limitation of Liability</h2>
+    <h2>11. Limitation of Liability</h2>
     <p>
-      The Application is provided "as is" for research purposes without warranties of any kind,
-      either express or implied. Columbia University and the SEA Lab shall not be liable for any
-      indirect, incidental, special, or consequential damages arising from your use of the Application.
+      The Application is provided "as is" without warranties of any kind, either express or implied.
+      The developer shall not be liable for any indirect, incidental, special, or consequential
+      damages arising from your use of the Application, including but not limited to data
+      inaccuracies originating from third-party sources.
     </p>
 
-    <h2>11. Changes to These Terms</h2>
+    <h2>12. Changes to These Terms</h2>
     <p>
-      We may update these Terms from time to time. Material changes will be communicated to active
-      users. Continued use of the Application after changes constitutes acceptance of the updated Terms.
+      We may update these Terms from time to time. Continued use of the Application after changes
+      constitutes acceptance of the updated Terms. The "Last updated" date at the top reflects
+      the most recent revision.
     </p>
 
-    <h2>12. Contact</h2>
+    <h2>13. Contact</h2>
     <p>
-      For questions about these Terms or the Application, please contact the SEA Lab at
-      Columbia University: <a href="mailto:sea-lab@columbia.edu">sea-lab@columbia.edu</a>
+      For questions about these Terms or the Application, please contact:
+      <a href="mailto:vz2182@columbia.edu">vz2182@columbia.edu</a>
     </p>
 
     <div class="footer">
-      &copy; 2026 Columbia University SEA Lab. All rights reserved.
+      &copy; 2026 Victor Zhang. All rights reserved.
       &middot; <a href="privacy.html">Privacy Policy</a>
     </div>
   </div>

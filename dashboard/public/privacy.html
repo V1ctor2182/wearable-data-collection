@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Policy — Wearable Data Pipeline</title>
+  <title>Privacy Policy — MyHealth Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -93,94 +93,103 @@
   <div class="container">
     <span class="badge">Privacy</span>
     <h1>Privacy Policy</h1>
-    <p class="subtitle">Wearable Data Pipeline &mdash; Columbia University SEA Lab &middot; Last updated: March 30, 2026</p>
+    <p class="subtitle">MyHealth Dashboard &middot; Last updated: April 2, 2026</p>
 
     <h2>1. Introduction</h2>
     <p>
-      This Privacy Policy describes how the Wearable Data Pipeline ("the Application"), operated by
-      the Systems Engineering of Autonomy (SEA) Lab at Columbia University, collects, uses, stores,
-      and protects your personal and health information.
+      This Privacy Policy describes how MyHealth Dashboard ("the Application") collects, uses,
+      stores, and protects your personal health information. The Application is a personal health
+      tool that allows you to access and view your own health data from your healthcare providers
+      and wearable devices.
     </p>
 
     <h2>2. Information We Collect</h2>
+    <p>
+      The Application collects only the health data that you explicitly authorize it to access:
+    </p>
     <table>
       <thead>
         <tr><th>Category</th><th>Data Types</th><th>Source</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td>Wearable data</td>
-          <td>Heart rate, HRV, sleep stages, SpO2, steps, activity, temperature, breathing rate, stress</td>
-          <td>Fitbit, Oura, WHOOP, Garmin, Apple Health, Samsung Health, Google Fit, Xiaomi, Polar</td>
-        </tr>
-        <tr>
           <td>Clinical data</td>
-          <td>Lab results, vital signs, conditions, medications, procedures, immunizations, allergies, care plans, encounters</td>
-          <td>Hospital EHR systems via SMART on FHIR (Epic, Cerner, etc.)</td>
+          <td>Lab results, vital signs, conditions, medications, procedures, immunizations, allergies, care plans, encounters, diagnostic reports</td>
+          <td>Your healthcare provider's EHR via SMART on FHIR (e.g., Epic MyChart, Cerner)</td>
         </tr>
         <tr>
-          <td>Account data</td>
-          <td>User identifier, OAuth tokens (encrypted), connection status</td>
-          <td>Generated during authorization</td>
+          <td>Wearable data</td>
+          <td>Heart rate, HRV, sleep, SpO2, steps, activity, temperature, breathing rate, stress</td>
+          <td>Your connected devices (Fitbit, Oura, WHOOP, Garmin, Apple Health, Samsung Health, Google Fit)</td>
+        </tr>
+        <tr>
+          <td>Connection data</td>
+          <td>OAuth tokens (encrypted), connection status, last sync timestamp</td>
+          <td>Generated when you authorize a data source</td>
         </tr>
       </tbody>
     </table>
 
     <h2>3. How We Use Your Information</h2>
-    <p>Your data is used exclusively for:</p>
+    <p>Your data is used solely to:</p>
     <ul>
-      <li>Academic research conducted under IRB-approved protocols at Columbia University.</li>
-      <li>Correlating wearable health metrics with clinical outcomes for research analysis.</li>
-      <li>Improving the Application's data collection and processing capabilities.</li>
+      <li>Display your health information back to you in the Application dashboard.</li>
+      <li>Store your data securely so you can access it at any time.</li>
+      <li>Sync and refresh your data from connected sources.</li>
     </ul>
     <p>We do <strong>not</strong>:</p>
     <ul>
-      <li>Sell your data to any third party.</li>
-      <li>Use your data for advertising or marketing.</li>
-      <li>Share individually identifiable data outside the research team without your consent.</li>
+      <li>Sell, rent, or trade your data to any third party.</li>
+      <li>Use your data for advertising, marketing, or profiling.</li>
+      <li>Share your data with anyone &mdash; it is accessible only to you.</li>
+      <li>Use your data to train machine learning models.</li>
+      <li>Analyze your data for any purpose beyond displaying it to you.</li>
     </ul>
 
     <h2>4. Legal Basis for Processing</h2>
     <p>
-      We process your health data based on your explicit consent, provided through:
+      We process your health data based on your explicit consent, provided when you authorize each
+      data source connection through OAuth 2.0 or SMART on FHIR. You may withdraw consent at any
+      time by disconnecting the data source.
     </p>
-    <ul>
-      <li>The IRB-approved informed consent process for research participation.</li>
-      <li>Your explicit authorization via OAuth/SMART on FHIR when connecting each data source.</li>
-    </ul>
+    <p>
+      Your right to access your own electronic health information is protected under the
+      21st Century Cures Act and the ONC Information Blocking Rule.
+    </p>
 
     <h2>5. Data Security</h2>
-    <p>We implement the following security measures:</p>
+    <p>We take the security of your health data seriously:</p>
     <ul>
       <li><strong>Encryption in transit</strong> &mdash; All communications use TLS/HTTPS.</li>
-      <li><strong>Encryption at rest</strong> &mdash; Database and backups are encrypted.</li>
-      <li><strong>Access control</strong> &mdash; Only authorized research personnel can access participant data.</li>
-      <li><strong>Token security</strong> &mdash; OAuth tokens are stored encrypted and refreshed automatically.</li>
-      <li><strong>Minimum necessary access</strong> &mdash; The Application requests only the data scopes required by the research protocol.</li>
-      <li><strong>Audit logging</strong> &mdash; All data ingestion events are logged for accountability.</li>
+      <li><strong>Encryption at rest</strong> &mdash; Your data is encrypted in the database.</li>
+      <li><strong>Access control</strong> &mdash; Only you can access your data. There is no shared access or admin backdoor.</li>
+      <li><strong>Token security</strong> &mdash; OAuth tokens are stored encrypted and automatically refreshed. They are never exposed or shared.</li>
+      <li><strong>Minimum necessary access</strong> &mdash; The Application requests only the FHIR scopes needed to retrieve your health data.</li>
+      <li><strong>Content deduplication</strong> &mdash; Data is deduplicated using SHA-256 hashing to avoid storing duplicate records.</li>
     </ul>
 
     <h2>6. Data Sharing</h2>
     <p>
-      We do not share your individually identifiable data with third parties. De-identified or
-      aggregated data may be shared in academic publications, presentations, or with collaborating
-      research institutions as permitted by the IRB protocol.
+      We do not share your data with any third party, period. Your health data stays between you
+      and this Application. No analytics services, advertisers, or other organizations have access
+      to your information.
     </p>
 
-    <h2>7. Data Retention</h2>
-    <p>
-      Personal health data is retained for the duration of the research study. After study
-      completion, data is either de-identified for long-term research use or securely deleted,
-      in accordance with the IRB protocol and Columbia University data retention policies.
-    </p>
+    <h2>7. Data Retention and Deletion</h2>
+    <ul>
+      <li>Your data is retained as long as you keep your data sources connected.</li>
+      <li>You may request deletion of all your data at any time by contacting us.</li>
+      <li>Upon disconnecting all data sources, stored data will be deleted within 30 days.</li>
+      <li>OAuth tokens are immediately revoked and deleted upon disconnection.</li>
+    </ul>
 
     <h2>8. Your Rights</h2>
     <ul>
-      <li><strong>Access</strong> &mdash; Request a copy of the data we hold about you.</li>
-      <li><strong>Correction</strong> &mdash; Request correction of inaccurate data.</li>
-      <li><strong>Deletion</strong> &mdash; Request deletion of your data, subject to research retention requirements.</li>
-      <li><strong>Revocation</strong> &mdash; Disconnect any data source at any time through the source platform's settings or patient portal.</li>
-      <li><strong>Withdrawal</strong> &mdash; Withdraw from the research study at any time without penalty.</li>
+      <li><strong>Access</strong> &mdash; View all data the Application holds about you, at any time, through the dashboard.</li>
+      <li><strong>Export</strong> &mdash; Download your data in its original format.</li>
+      <li><strong>Correction</strong> &mdash; Clinical data corrections should be requested through your healthcare provider.</li>
+      <li><strong>Deletion</strong> &mdash; Request complete deletion of all your stored data.</li>
+      <li><strong>Revocation</strong> &mdash; Disconnect any data source at any time through the source platform's settings or your provider's patient portal.</li>
     </ul>
 
     <h2>9. Children's Privacy</h2>
@@ -191,19 +200,20 @@
 
     <h2>10. Changes to This Policy</h2>
     <p>
-      We may update this Privacy Policy periodically. Material changes will be communicated to
-      active participants. The "Last updated" date at the top reflects the most recent revision.
+      We may update this Privacy Policy from time to time. The "Last updated" date at the top
+      reflects the most recent revision. Continued use of the Application after changes constitutes
+      acceptance of the updated policy.
     </p>
 
     <h2>11. Contact Us</h2>
     <p>
-      For privacy-related questions or to exercise your rights, contact:<br>
-      SEA Lab, Columbia University<br>
-      Email: <a href="mailto:sea-lab@columbia.edu">sea-lab@columbia.edu</a>
+      For privacy-related questions or to exercise your rights, please contact:<br>
+      Victor Zhang<br>
+      Email: <a href="mailto:vz2182@columbia.edu">vz2182@columbia.edu</a>
     </p>
 
     <div class="footer">
-      &copy; 2026 Columbia University SEA Lab. All rights reserved.
+      &copy; 2026 Victor Zhang. All rights reserved.
       &middot; <a href="terms.html">Terms and Conditions</a>
     </div>
   </div>
