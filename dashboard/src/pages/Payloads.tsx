@@ -20,7 +20,7 @@ function truncateJson(payload: Record<string, unknown>, maxLen = 120) {
 /** Extract top-level keys and their types from a payload for schema preview */
 function extractSchema(payload: Record<string, unknown>): { key: string; type: string; preview: string }[] {
   return Object.entries(payload).map(([key, val]) => {
-    let type = typeof val
+    let type: string = typeof val
     let preview = ''
     if (val === null) { type = 'null'; preview = 'null' }
     else if (Array.isArray(val)) {
@@ -33,7 +33,7 @@ function extractSchema(payload: Record<string, unknown>): { key: string; type: s
     }
     else if (typeof val === 'object') {
       const keys = Object.keys(val as Record<string, unknown>)
-      type = `object{${keys.length}}`
+      type = `object{${keys.length}}` as string
       preview = `{${keys.slice(0, 4).join(', ')}${keys.length > 4 ? ', ...' : ''}}`
     }
     else if (typeof val === 'string') {

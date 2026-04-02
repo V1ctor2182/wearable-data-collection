@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms and Conditions — Wearable Data Pipeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.7;
+      color: #1a1a2e;
+      background: #f8f9fb;
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+    .badge {
+      display: inline-block;
+      background: #e8eaf6;
+      color: #3949ab;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #0d1b2a;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #0d1b2a;
+      margin-top: 2.25rem;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    p, li {
+      font-size: 0.935rem;
+      color: #334155;
+      margin-bottom: 0.75rem;
+    }
+    ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    li { margin-bottom: 0.4rem; }
+    a { color: #3949ab; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="badge">Legal</span>
+    <h1>Terms and Conditions</h1>
+    <p class="subtitle">Wearable Data Pipeline &mdash; Columbia University SEA Lab &middot; Last updated: March 30, 2026</p>
+
+    <h2>1. Overview</h2>
+    <p>
+      The Wearable Data Pipeline ("the Application") is a research platform operated by the
+      Systems Engineering of Autonomy (SEA) Lab at Columbia University. It collects, stores, and
+      processes health data from consumer wearable devices and hospital electronic health records
+      (EHR) via the SMART on FHIR standard for the purpose of academic research.
+    </p>
+    <p>
+      By using this Application or authorizing it to access your data, you agree to these Terms
+      and Conditions. If you do not agree, please do not use the Application.
+    </p>
+
+    <h2>2. Eligibility</h2>
+    <p>
+      You must be at least 18 years of age and capable of forming a binding agreement to use this
+      Application. Use of this Application as a research participant is governed by the applicable
+      Institutional Review Board (IRB)-approved consent form, which takes precedence over these Terms
+      in the event of any conflict.
+    </p>
+
+    <h2>3. Data Collection and Use</h2>
+    <p>The Application may collect the following categories of data upon your authorization:</p>
+    <ul>
+      <li><strong>Wearable device data</strong> &mdash; including but not limited to heart rate, sleep,
+        activity, SpO2, HRV, steps, and other metrics from devices such as Fitbit, Oura, WHOOP,
+        Garmin, Apple Health, Samsung Health, and Google Fit.</li>
+      <li><strong>Clinical EHR data</strong> &mdash; including laboratory results, vital signs, conditions,
+        medications, procedures, immunizations, allergies, care plans, and other FHIR R4 resources
+        accessed via SMART on FHIR from your healthcare provider's EHR system (e.g., Epic MyChart,
+        Cerner).</li>
+    </ul>
+    <p>
+      All data is collected solely for academic research purposes. Data is stored as raw payloads
+      in a secure database with content-based deduplication. No data is sold, shared with advertisers,
+      or used for commercial purposes.
+    </p>
+
+    <h2>4. Authorization and Consent</h2>
+    <p>
+      The Application accesses your health data only after you explicitly authorize the connection
+      through OAuth 2.0 or SMART on FHIR authorization flows provided by the respective data source
+      (wearable device platform or healthcare provider). You may revoke access at any time through
+      your device platform's settings or your healthcare provider's patient portal.
+    </p>
+
+    <h2>5. Data Storage and Security</h2>
+    <ul>
+      <li>All data is encrypted in transit (TLS) and at rest.</li>
+      <li>Access tokens are stored securely and refreshed automatically; they are never exposed to
+        end users or third parties.</li>
+      <li>The Application follows the principle of minimum necessary access, requesting only the
+        FHIR scopes and API permissions required for the research protocol.</li>
+      <li>Data is stored on infrastructure managed by Columbia University, subject to university
+        IT security policies.</li>
+    </ul>
+
+    <h2>6. Data Retention</h2>
+    <p>
+      Data is retained for the duration of the research study or as required by the applicable
+      IRB protocol. Upon study completion, data will be de-identified or deleted in accordance
+      with the approved research protocol and university data retention policies.
+    </p>
+
+    <h2>7. Your Rights</h2>
+    <p>You have the right to:</p>
+    <ul>
+      <li>Revoke the Application's access to your data at any time.</li>
+      <li>Request a copy of the data the Application has collected about you.</li>
+      <li>Request deletion of your data, subject to research data retention requirements.</li>
+      <li>Withdraw from the research study without penalty.</li>
+    </ul>
+
+    <h2>8. No Medical Advice</h2>
+    <p>
+      The Application is a research tool and does not provide medical advice, diagnoses, or
+      treatment recommendations. The data displayed or processed by the Application should not
+      be used as a substitute for professional medical judgment.
+    </p>
+
+    <h2>9. Third-Party Services</h2>
+    <p>
+      The Application integrates with third-party services (wearable device platforms, EHR systems)
+      whose own terms of service and privacy policies apply to your use of those services. We are
+      not responsible for the practices of these third-party providers.
+    </p>
+
+    <h2>10. Limitation of Liability</h2>
+    <p>
+      The Application is provided "as is" for research purposes without warranties of any kind,
+      either express or implied. Columbia University and the SEA Lab shall not be liable for any
+      indirect, incidental, special, or consequential damages arising from your use of the Application.
+    </p>
+
+    <h2>11. Changes to These Terms</h2>
+    <p>
+      We may update these Terms from time to time. Material changes will be communicated to active
+      users. Continued use of the Application after changes constitutes acceptance of the updated Terms.
+    </p>
+
+    <h2>12. Contact</h2>
+    <p>
+      For questions about these Terms or the Application, please contact the SEA Lab at
+      Columbia University: <a href="mailto:sea-lab@columbia.edu">sea-lab@columbia.edu</a>
+    </p>
+
+    <div class="footer">
+      &copy; 2026 Columbia University SEA Lab. All rights reserved.
+      &middot; <a href="privacy.html">Privacy Policy</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -7,7 +7,7 @@
  * Re-uses shared interfaces from fitbit-api-reference.ts
  */
 
-import type { FieldRef, CategoryRef } from './fitbit-api-reference'
+import type { CategoryRef } from './fitbit-api-reference'
 
 export const OURA_API_REFERENCE: Record<string, CategoryRef> = {
   personal_info: {

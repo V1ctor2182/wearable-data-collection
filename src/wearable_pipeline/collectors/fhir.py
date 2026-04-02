@@ -16,15 +16,29 @@ logger = logging.getLogger(__name__)
 # (data_category, url_template, is_search_bundle)
 # url_template uses {patient_id} placeholder
 FHIR_RESOURCE_QUERIES = [
+    # ─── Core clinical data (USCDI required) ───
     ("Patient",                "Patient/{patient_id}",                                      False),
     ("Observation_lab",        "Observation?patient={patient_id}&category=laboratory",       True),
     ("Observation_vital",      "Observation?patient={patient_id}&category=vital-signs",      True),
+    ("Observation_social",     "Observation?patient={patient_id}&category=social-history",   True),
     ("Condition",              "Condition?patient={patient_id}",                              True),
     ("MedicationRequest",      "MedicationRequest?patient={patient_id}",                     True),
     ("Procedure",              "Procedure?patient={patient_id}",                             True),
     ("Immunization",           "Immunization?patient={patient_id}",                          True),
     ("AllergyIntolerance",     "AllergyIntolerance?patient={patient_id}",                    True),
     ("DocumentReference",      "DocumentReference?patient={patient_id}",                     True),
+    # ─── Extended clinical data ───
+    ("Encounter",              "Encounter?patient={patient_id}",                             True),
+    ("CarePlan",               "CarePlan?patient={patient_id}",                              True),
+    ("CareTeam",               "CareTeam?patient={patient_id}",                              True),
+    ("Goal",                   "Goal?patient={patient_id}",                                  True),
+    ("DiagnosticReport",       "DiagnosticReport?patient={patient_id}",                      True),
+    ("Device",                 "Device?patient={patient_id}",                                True),
+    ("MedicationStatement",    "MedicationStatement?patient={patient_id}",                   True),
+    ("FamilyMemberHistory",    "FamilyMemberHistory?patient={patient_id}",                   True),
+    ("RelatedPerson",          "RelatedPerson?patient={patient_id}",                         True),
+    ("Coverage",               "Coverage?patient={patient_id}",                              True),
+    ("Provenance",             "Provenance?patient={patient_id}",                            True),
 ]
 
 # Max pages per resource type to prevent runaway pagination

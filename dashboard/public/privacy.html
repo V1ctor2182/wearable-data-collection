@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Wearable Data Pipeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.7;
+      color: #1a1a2e;
+      background: #f8f9fb;
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+    .badge {
+      display: inline-block;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #0d1b2a;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #0d1b2a;
+      margin-top: 2.25rem;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    p, li {
+      font-size: 0.935rem;
+      color: #334155;
+      margin-bottom: 0.75rem;
+    }
+    ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    li { margin-bottom: 0.4rem; }
+    a { color: #2e7d32; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.875rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      font-weight: 600;
+      color: #0d1b2a;
+      background: #f1f5f9;
+    }
+    td { color: #334155; }
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="badge">Privacy</span>
+    <h1>Privacy Policy</h1>
+    <p class="subtitle">Wearable Data Pipeline &mdash; Columbia University SEA Lab &middot; Last updated: March 30, 2026</p>
+
+    <h2>1. Introduction</h2>
+    <p>
+      This Privacy Policy describes how the Wearable Data Pipeline ("the Application"), operated by
+      the Systems Engineering of Autonomy (SEA) Lab at Columbia University, collects, uses, stores,
+      and protects your personal and health information.
+    </p>
+
+    <h2>2. Information We Collect</h2>
+    <table>
+      <thead>
+        <tr><th>Category</th><th>Data Types</th><th>Source</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Wearable data</td>
+          <td>Heart rate, HRV, sleep stages, SpO2, steps, activity, temperature, breathing rate, stress</td>
+          <td>Fitbit, Oura, WHOOP, Garmin, Apple Health, Samsung Health, Google Fit, Xiaomi, Polar</td>
+        </tr>
+        <tr>
+          <td>Clinical data</td>
+          <td>Lab results, vital signs, conditions, medications, procedures, immunizations, allergies, care plans, encounters</td>
+          <td>Hospital EHR systems via SMART on FHIR (Epic, Cerner, etc.)</td>
+        </tr>
+        <tr>
+          <td>Account data</td>
+          <td>User identifier, OAuth tokens (encrypted), connection status</td>
+          <td>Generated during authorization</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3. How We Use Your Information</h2>
+    <p>Your data is used exclusively for:</p>
+    <ul>
+      <li>Academic research conducted under IRB-approved protocols at Columbia University.</li>
+      <li>Correlating wearable health metrics with clinical outcomes for research analysis.</li>
+      <li>Improving the Application's data collection and processing capabilities.</li>
+    </ul>
+    <p>We do <strong>not</strong>:</p>
+    <ul>
+      <li>Sell your data to any third party.</li>
+      <li>Use your data for advertising or marketing.</li>
+      <li>Share individually identifiable data outside the research team without your consent.</li>
+    </ul>
+
+    <h2>4. Legal Basis for Processing</h2>
+    <p>
+      We process your health data based on your explicit consent, provided through:
+    </p>
+    <ul>
+      <li>The IRB-approved informed consent process for research participation.</li>
+      <li>Your explicit authorization via OAuth/SMART on FHIR when connecting each data source.</li>
+    </ul>
+
+    <h2>5. Data Security</h2>
+    <p>We implement the following security measures:</p>
+    <ul>
+      <li><strong>Encryption in transit</strong> &mdash; All communications use TLS/HTTPS.</li>
+      <li><strong>Encryption at rest</strong> &mdash; Database and backups are encrypted.</li>
+      <li><strong>Access control</strong> &mdash; Only authorized research personnel can access participant data.</li>
+      <li><strong>Token security</strong> &mdash; OAuth tokens are stored encrypted and refreshed automatically.</li>
+      <li><strong>Minimum necessary access</strong> &mdash; The Application requests only the data scopes required by the research protocol.</li>
+      <li><strong>Audit logging</strong> &mdash; All data ingestion events are logged for accountability.</li>
+    </ul>
+
+    <h2>6. Data Sharing</h2>
+    <p>
+      We do not share your individually identifiable data with third parties. De-identified or
+      aggregated data may be shared in academic publications, presentations, or with collaborating
+      research institutions as permitted by the IRB protocol.
+    </p>
+
+    <h2>7. Data Retention</h2>
+    <p>
+      Personal health data is retained for the duration of the research study. After study
+      completion, data is either de-identified for long-term research use or securely deleted,
+      in accordance with the IRB protocol and Columbia University data retention policies.
+    </p>
+
+    <h2>8. Your Rights</h2>
+    <ul>
+      <li><strong>Access</strong> &mdash; Request a copy of the data we hold about you.</li>
+      <li><strong>Correction</strong> &mdash; Request correction of inaccurate data.</li>
+      <li><strong>Deletion</strong> &mdash; Request deletion of your data, subject to research retention requirements.</li>
+      <li><strong>Revocation</strong> &mdash; Disconnect any data source at any time through the source platform's settings or patient portal.</li>
+      <li><strong>Withdrawal</strong> &mdash; Withdraw from the research study at any time without penalty.</li>
+    </ul>
+
+    <h2>9. Children's Privacy</h2>
+    <p>
+      The Application is not intended for use by individuals under the age of 18. We do not
+      knowingly collect data from minors.
+    </p>
+
+    <h2>10. Changes to This Policy</h2>
+    <p>
+      We may update this Privacy Policy periodically. Material changes will be communicated to
+      active participants. The "Last updated" date at the top reflects the most recent revision.
+    </p>
+
+    <h2>11. Contact Us</h2>
+    <p>
+      For privacy-related questions or to exercise your rights, contact:<br>
+      SEA Lab, Columbia University<br>
+      Email: <a href="mailto:sea-lab@columbia.edu">sea-lab@columbia.edu</a>
+    </p>
+
+    <div class="footer">
+      &copy; 2026 Columbia University SEA Lab. All rights reserved.
+      &middot; <a href="terms.html">Terms and Conditions</a>
+    </div>
+  </div>
+</body>
+</html>
