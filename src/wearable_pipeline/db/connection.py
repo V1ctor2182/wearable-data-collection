@@ -1,6 +1,8 @@
 """PostgreSQL connection pool using asyncpg."""
 from __future__ import annotations
 
+import os
+import ssl
 from typing import Optional
 import asyncpg
 import logging
@@ -15,6 +17,13 @@ _pool: asyncpg.Pool | None = None
 async def get_pool() -> asyncpg.Pool:
     global _pool
     if _pool is None:
+        # Use SSL on Railway (internal connections don't need it, but public ones do)
+        ssl_ctx = None
+        if os.environ.get("RAILWAY_ENVIRONMENT"):
+            ssl_ctx = ssl.create_default_context()
+            ssl_ctx.check_hostname = False
+            ssl_ctx.verify_mode = ssl.CERT_NONE
+
         _pool = await asyncpg.create_pool(
             host=settings.db_host,
             port=settings.db_port,
@@ -24,6 +33,7 @@ async def get_pool() -> asyncpg.Pool:
             min_size=2,
             max_size=20,
             command_timeout=30,
+            ssl=ssl_ctx,
         )
         logger.info(f"Connected to PostgreSQL: {settings.db_name}@{settings.db_host}")
     return _pool
