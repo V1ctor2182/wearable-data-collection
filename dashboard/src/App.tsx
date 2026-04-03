@@ -4,6 +4,7 @@ import Payloads from './pages/Payloads'
 import PayloadDetail from './pages/PayloadDetail'
 import Devices from './pages/Devices'
 import Logs from './pages/Logs'
+import FHIR from './pages/FHIR'
 
 export default function App() {
   return (
@@ -23,6 +24,10 @@ export default function App() {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             Raw Payloads
           </NavLink>
+          <NavLink to="/fhir">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Hospital / FHIR
+          </NavLink>
           <NavLink to="/devices">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
             Devices
@@ -40,6 +45,7 @@ export default function App() {
           <Route path="/" element={<Overview />} />
           <Route path="/payloads" element={<Payloads />} />
           <Route path="/payloads/:id" element={<PayloadDetail />} />
+          <Route path="/fhir" element={<FHIR />} />
           <Route path="/devices" element={<Devices />} />
           <Route path="/logs" element={<Logs />} />
         </Routes>

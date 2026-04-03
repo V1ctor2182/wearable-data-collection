@@ -76,4 +76,45 @@ export const api = {
     get<CategoryRow[]>(`/api/categories?user_id=${userId}`),
 
   health: () => get<{ status: string; total_payloads: number; devices: unknown[] }>('/'),
+
+  // FHIR
+  fhirHospitals: (q = '') => get<FhirHospital[]>(`/api/fhir/hospitals?q=${encodeURIComponent(q)}`),
+
+  fhirConnections: (userId = 'default') => get<FhirConnection[]>(`/api/fhir/connections?user_id=${userId}`),
+
+  fhirAuthorize: (endpointId: string, userId = 'default') =>
+    get<{ authorization_url: string; endpoint_id: string }>(
+      `/api/fhir/authorize?endpoint_id=${encodeURIComponent(endpointId)}&user_id=${encodeURIComponent(userId)}`
+    ),
+
+  fhirSync: async (endpointId: string, userId = 'default') => {
+    const res = await fetch(BASE + `/sync/fhir/${encodeURIComponent(endpointId)}?user_id=${encodeURIComponent(userId)}`, { method: 'POST' });
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+    return res.json() as Promise<FhirSyncResult>;
+  },
 };
+
+export interface FhirHospital {
+  id: string;
+  name: string;
+  fhir_base_url: string;
+  vendor: string;
+}
+
+export interface FhirConnection {
+  endpoint_id: string;
+  display_name: string;
+  fhir_patient_id: string | null;
+  status: string;
+  last_sync_at: string | null;
+  connected_at: string | null;
+}
+
+export interface FhirSyncResult {
+  endpoint_id: string;
+  device_type: string;
+  total: number;
+  inserted: number;
+  duplicated: number;
+  errors: number;
+}

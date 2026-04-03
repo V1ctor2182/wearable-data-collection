@@ -198,6 +198,10 @@ async def fhir_callback(request: Request, code: str, state: Optional[str] = None
     pool = await get_pool()
     try:
         result = await handle_fhir_callback(pool, state, code)
+        # Redirect to dashboard FHIR page if frontend URL is configured
+        frontend_url = os.environ.get("FRONTEND_URL")
+        if frontend_url:
+            return RedirectResponse(f"{frontend_url}/fhir?connected={result['endpoint_id']}")
         return {"success": True, **result}
     except Exception as e:
         logger.error(f"FHIR callback error: {e}")
