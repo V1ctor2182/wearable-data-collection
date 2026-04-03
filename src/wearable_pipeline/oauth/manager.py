@@ -323,9 +323,13 @@ async def generate_fhir_auth_url(
     }
 
     scopes = settings.fhir_default_scopes
+    # Use non-production client ID for sandbox endpoints
+    is_sandbox = "sandbox" in endpoint_id or "fhir.epic.com" in endpoint.get("fhir_base_url", "")
+    client_id = (settings.fhir_nonprod_client_id or settings.fhir_client_id) if is_sandbox else settings.fhir_client_id
+
     params = {
         "response_type": "code",
-        "client_id": settings.fhir_client_id,
+        "client_id": client_id,
         "redirect_uri": settings.fhir_redirect_uri,
         "scope": scopes,
         "state": state,
@@ -360,14 +364,17 @@ async def handle_fhir_callback(
         raise ValueError(f"FHIR endpoint disappeared: {endpoint_id}")
 
     # Exchange code for tokens
+    is_sandbox = "sandbox" in endpoint_id or "fhir.epic.com" in endpoint.get("fhir_base_url", "")
+    client_id = (settings.fhir_nonprod_client_id or settings.fhir_client_id) if is_sandbox else settings.fhir_client_id
+
     async with httpx.AsyncClient(timeout=30.0) as client:
         params = {
             "grant_type": "authorization_code",
             "code": code,
             "redirect_uri": settings.fhir_redirect_uri,
-            "client_id": settings.fhir_client_id,
+            "client_id": client_id,
         }
-        if settings.fhir_client_secret:
+        if settings.fhir_client_secret and not is_sandbox:
             params["client_secret"] = settings.fhir_client_secret
 
         # Use content= with manual urlencode to ensure special chars (+, =, /)
