@@ -34,6 +34,7 @@ jobs:
       - run: npm run build
         env:
           BASE_PATH: /wearable-data-collection/
+          VITE_API_URL: https://api-production-f162.up.railway.app
 
       - uses: actions/upload-pages-artifact@v3
         with:

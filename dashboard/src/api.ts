@@ -1,6 +1,6 @@
 /** API client for the wearable data pipeline backend. */
 
-const BASE = '';
+const BASE = import.meta.env.VITE_API_URL || '';
 
 export interface PayloadRow {
   id: number;
