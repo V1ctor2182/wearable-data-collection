@@ -8,37 +8,37 @@
   {
     "id": "epic_nyp",
     "name": "NewYork-Presbyterian / Columbia",
-    "fhir_base_url": "https://epicmychart.nyp.org/MyChart-PRD/api/FHIR/R4",
+    "fhir_base_url": "https://epicproxy-pub.et1089.epichosted.com/FHIRProxy/api/FHIR/R4",
     "vendor": "epic"
   },
   {
     "id": "epic_nyu",
     "name": "NYU Langone Health",
-    "fhir_base_url": "https://epicfhir.nyumc.org/FHIR-PRD/api/FHIR/R4",
+    "fhir_base_url": "https://epicfhir.nyumc.org/FHIRPRD/api/FHIR/R4",
     "vendor": "epic"
   },
   {
     "id": "epic_mountsinai",
     "name": "Mount Sinai Health System",
-    "fhir_base_url": "https://epicfhir.mountsinai.org/FHIRProxy/api/FHIR/R4",
+    "fhir_base_url": "https://epicsoapproxyprd.mountsinai.org/FHIR-PRD/api/FHIR/R4",
     "vendor": "epic"
   },
   {
     "id": "epic_jhu",
     "name": "Johns Hopkins Medicine",
-    "fhir_base_url": "https://epicmobile.johnshopkins.edu/FHIR-PRD/api/FHIR/R4",
+    "fhir_base_url": "https://epicproxy.et0842.epichosted.com/FHIRProxyPRD/api/FHIR/R4",
     "vendor": "epic"
   },
   {
     "id": "epic_mayo",
     "name": "Mayo Clinic",
-    "fhir_base_url": "https://epicfhir.mayo.edu/FHIR-PRD/api/FHIR/R4",
+    "fhir_base_url": "https://mcc.api.mayo.edu/epic-fhir/api/FHIR/R4",
     "vendor": "epic"
   },
   {
     "id": "epic_stanford",
     "name": "Stanford Health Care",
-    "fhir_base_url": "https://epicfhir.stanfordhealthcare.org/FHIR-PRD/api/FHIR/R4",
+    "fhir_base_url": "https://sfd.stanfordmed.org/FHIR/api/FHIR/R4",
     "vendor": "epic"
   },
   {
@@ -50,7 +50,7 @@
   {
     "id": "epic_ucla",
     "name": "UCLA Health",
-    "fhir_base_url": "https://epicfhir.mednet.ucla.edu/FHIR-PRD/api/FHIR/R4",
+    "fhir_base_url": "https://arrprox.mednet.ucla.edu/FHIRPRD/api/FHIR/R4",
     "vendor": "epic"
   },
   {
@@ -62,19 +62,19 @@
   {
     "id": "epic_mass_general",
     "name": "Mass General Brigham",
-    "fhir_base_url": "https://epicproxy.et0907.epichosted.com/FHIRProxy/api/FHIR/R4",
+    "fhir_base_url": "https://ws-interconnect-fhir.partners.org/Interconnect-FHIR-MU-PRD/api/FHIR/R4",
     "vendor": "epic"
   },
   {
     "id": "epic_duke",
     "name": "Duke Health",
-    "fhir_base_url": "https://health-apis.duke.edu/FHIR/patient/R4",
+    "fhir_base_url": "https://health-apis.duke.edu/FHIR/api/FHIR/R4",
     "vendor": "epic"
   },
   {
     "id": "epic_uw",
     "name": "UW Medicine",
-    "fhir_base_url": "https://fhir.epic.medical.washington.edu/FHIR-PRD/api/FHIR/R4",
+    "fhir_base_url": "https://fhir.epic.medical.washington.edu/FHIR-Proxy/api/FHIR/R4",
     "vendor": "epic"
   },
   {
